@@ -6,7 +6,7 @@ then
   exit
 fi
 
-VERSION="23.10"
+VERSION="24.04.1"
 
 truncate -s 6G rootfs.img
 mkfs.ext4 rootfs.img
@@ -48,7 +48,7 @@ chroot rootdir apt update
 chroot rootdir apt upgrade -y
 
 #u-boot-tools breaks grub installation
-chroot rootdir apt install -y bash-completion sudo ssh nano u-boot-tools- $1
+chroot rootdir apt install -y bash-completion sudo ssh vim ubuntu-desktop-minimal
 
 #chroot rootdir gsettings set org.gnome.shell.extensions.dash-to-dock show-mounts-only-mounted true
 
@@ -60,7 +60,7 @@ chroot rootdir apt install -y rmtfs protection-domain-mapper tqftpserv
 #Remove check for "*-laptop"
 sed -i '/ConditionKernelVersion/d' rootdir/lib/systemd/system/pd-mapper.service
 
-cp /home/runner/work/ubuntu-xiaomi-nabu/ubuntu-xiaomi-nabu/xiaomi-nabu-debs_$2/*-xiaomi-nabu.deb rootdir/tmp/
+cp ./*-xiaomi-nabu.deb rootdir/tmp/
 chroot rootdir dpkg -i /tmp/linux-xiaomi-nabu.deb
 chroot rootdir dpkg -i /tmp/firmware-xiaomi-nabu.deb
 chroot rootdir dpkg -i /tmp/alsa-xiaomi-nabu.deb
@@ -68,18 +68,19 @@ rm rootdir/tmp/*-xiaomi-nabu.deb
 
 
 #EFI
-chroot rootdir apt install -y grub-efi-arm64
+#chroot rootdir apt install -y grub-efi-arm64
 
-sed --in-place 's/^#GRUB_DISABLE_OS_PROBER=false/GRUB_DISABLE_OS_PROBER=false/' rootdir/etc/default/grub
-sed --in-place 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"/GRUB_CMDLINE_LINUX_DEFAULT=""/' rootdir/etc/default/grub
+#sed --in-place 's/^#GRUB_DISABLE_OS_PROBER=false/GRUB_DISABLE_OS_PROBER=false/' rootdir/etc/default/grub
+#sed --in-place 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"/GRUB_CMDLINE_LINUX_DEFAULT=""/' rootdir/etc/default/grub
 
 #this done on device for now
 #grub-install
 #grub-mkconfig -o /boot/grub/grub.cfg
 
 #create fstab!
-echo "PARTLABEL=linux / ext4 errors=remount-ro,x-systemd.growfs 0 1
-PARTLABEL=esp /boot/efi vfat umask=0077 0 1" | tee rootdir/etc/fstab
+#echo "PARTLABEL=linux / ext4 errors=remount-ro,x-systemd.growfs 0 1
+#PARTLABEL=esp /boot/efi vfat umask=0077 0 1" | tee rootdir/etc/fstab
+echo "PARTLABEL=linux / ext4 errors=remount-ro,x-systemd.growfs 0 1" | tee rootdir/etc/fstab
 
 mkdir rootdir/var/lib/gdm
 touch rootdir/var/lib/gdm/run-initial-setup
