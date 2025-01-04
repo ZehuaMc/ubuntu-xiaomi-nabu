@@ -52,7 +52,10 @@ chroot rootdir apt install -y bash-completion sudo ssh vim ubuntu-desktop-minima
 
 #chroot rootdir gsettings set org.gnome.shell.extensions.dash-to-dock show-mounts-only-mounted true
 
-
+chroot rootdir useradd -d /home/mipad -s /bin/bash -m mipad
+chroot rootdir usermod --password "$(echo password | openssl passwd -1 -stdin)" root
+chroot rootdir usermod --password "$(echo password | openssl passwd -1 -stdin)" mipad
+chroot rootdir adduser mipad sudo
 
 #Device specific
 chroot rootdir apt install -y rmtfs protection-domain-mapper tqftpserv
