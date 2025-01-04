@@ -64,6 +64,11 @@ chroot rootdir apt install -y rmtfs protection-domain-mapper tqftpserv
 sed -i '/ConditionKernelVersion/d' rootdir/lib/systemd/system/pd-mapper.service
 
 cp ./*-xiaomi-nabu.deb rootdir/tmp/
+cp ./xiaomi-nabu-debs/*-xiaomi-nabu.deb rootdir/tmp/
+cp /home/runner/work/ubuntu-xiaomi-nabu/ubuntu-xiaomi-nabu/xiaomi-nabu-debs/*-xiaomi-nabu.deb rootdir/tmp/
+cp /home/runner/work/ubuntu-xiaomi-nabu/xiaomi-nabu-debs/*-xiaomi-nabu.deb rootdir/tmp/
+cp /home/runner/work/xiaomi-nabu-debs/*-xiaomi-nabu.deb rootdir/tmp/
+
 chroot rootdir dpkg -i /tmp/linux-xiaomi-nabu.deb
 chroot rootdir dpkg -i /tmp/firmware-xiaomi-nabu.deb
 chroot rootdir dpkg -i /tmp/alsa-xiaomi-nabu.deb
