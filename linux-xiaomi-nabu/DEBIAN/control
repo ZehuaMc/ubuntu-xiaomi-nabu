@@ -1,5 +1,5 @@
 Package: linux-xiaomi-nabu
-Version: 6.12.0-sm8150-gc4e7de505964-dirty
+Version: 6.13.0-sm8150-ga0bedf26ccf8-dirty
 Architecture: arm64
 Maintainer: ZehuaMc <zehuatang@outlook.com>
 Section: kernel
