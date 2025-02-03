@@ -1,0 +1,8 @@
+rootdir/
+linux/
+*.img
+zImage
+mkbootimg/
+*.deb
+linux-xiaomi-nabu/lib
+qemu-aarch64-static

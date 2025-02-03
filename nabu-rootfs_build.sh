@@ -15,7 +15,7 @@ mount -o loop rootfs.img rootdir
 
 wget https://cdimage.ubuntu.com/ubuntu-base/releases/$VERSION/release/ubuntu-base-$VERSION-base-arm64.tar.gz
 tar xzvf ubuntu-base-$VERSION-base-arm64.tar.gz -C rootdir
-#rm ubuntu-base-$VERSION-base-arm64.tar.gz
+rm ubuntu-base-$VERSION-base-arm64.tar.gz
 
 mount --bind /dev rootdir/dev
 mount --bind /dev/pts rootdir/dev/pts
@@ -48,7 +48,7 @@ chroot rootdir apt update
 chroot rootdir apt upgrade -y
 
 #u-boot-tools breaks grub installation
-chroot rootdir apt install -y bash-completion sudo ssh vim ubuntu-desktop-minimal
+chroot rootdir apt install -y sudo ssh vim bash-completion ubuntu-desktop-minimal alsa-ucm-conf
 
 #chroot rootdir gsettings set org.gnome.shell.extensions.dash-to-dock show-mounts-only-mounted true
 
@@ -58,19 +58,23 @@ chroot rootdir usermod --password "$(echo password | openssl passwd -1 -stdin)" 
 chroot rootdir adduser mipad sudo
 
 #Device specific
-chroot rootdir apt install -y rmtfs protection-domain-mapper tqftpserv
+#chroot rootdir apt install -y protection-domain-mapper 
+
+#chroot rootdir apt install -y network-manager alsa-ucm-conf
 
 #Remove check for "*-laptop"
-sed -i '/ConditionKernelVersion/d' rootdir/lib/systemd/system/pd-mapper.service
+#sed -i '/ConditionKernelVersion/d' rootdir/lib/systemd/system/pd-mapper.service
 
-cp ./xiaomi-nabu-debs/*-xiaomi-nabu.deb rootdir/tmp/
-cp ./*-xiaomi-nabu.deb rootdir/tmp/
+wget https://tx0.su/share/nabu/packages/latest/latest/qcom-services-1.0.0-1-aarch64.deb
+cp ./xiaomi-nabu-debs/*.deb rootdir/tmp/
+cp ./*.deb rootdir/tmp/
 
-chroot rootdir dpkg -i /tmp/linux-xiaomi-nabu.deb
 chroot rootdir dpkg -i /tmp/firmware-xiaomi-nabu.deb
-chroot rootdir dpkg -i /tmp/alsa-xiaomi-nabu.deb
-rm rootdir/tmp/*-xiaomi-nabu.deb
-
+chroot rootdir dpkg -i /tmp/linux-xiaomi-nabu.deb
+chroot rootdir dpkg -i /tmp/qcom-services-1.0.0-1-aarch64.deb
+rm rootdir/tmp/*.deb
+chroot rootdir systemctl enable qrtr-ns pd-mapper tqftpserv rmtfs
+chroot rootdir systemctl enable NetworkManager
 
 #EFI
 #chroot rootdir apt install -y grub-efi-arm64
@@ -111,6 +115,8 @@ umount rootdir
 
 rm -d rootdir
 
+e2fsck -p -f rootfs.img
+resize2fs -M rootfs.img
 echo 'cmdline for legacy boot: "root=PARTLABEL=linux"'
 
-7zz a rootfs.7z rootfs.img
+#7zz a rootfs.7z rootfs.img

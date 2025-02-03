@@ -60,10 +60,10 @@ jobs:
       - name: Build rootfs
         run: sudo sh nabu-rootfs_build.sh
 
-      - name: Upload rootfs.7z
+      - name: Upload rootfs.img
         uses: actions/upload-artifact@v4.0.0
         with:
           # Artifact name
           name: rootfs
-          path: rootfs.7z
+          path: rootfs.img
           compression-level: 0

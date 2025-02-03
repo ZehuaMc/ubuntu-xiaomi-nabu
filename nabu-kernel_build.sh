@@ -14,11 +14,11 @@ make modules_install INSTALL_MOD_PATH=../linux-xiaomi-nabu
 # rm ../linux-xiaomi-nabu/lib/modules/**/build
 cd ..
 cat linux/arch/arm64/boot/Image.gz linux/arch/arm64/boot/dts/qcom/sm8150-xiaomi-nabu.dtb > zImage
-rm -rf linux
+#rm -rf linux
 
 git clone https://android.googlesource.com/platform/system/tools/mkbootimg
 ./mkbootimg/mkbootimg.py --kernel zImage --cmdline "pd_ignore_unused clk_ignore_unused console=tty0 root=/dev/sda32 rw rootwait" --base 0x00000000 --kernel_offset 0x00008000 --tags_offset 0x00000100 --pagesize 4096 --id -o linux.boot.img
-rm -rf mkbootimg
+#rm -rf mkbootimg
 
 dpkg-deb --build --root-owner-group linux-xiaomi-nabu
 dpkg-deb --build --root-owner-group firmware-xiaomi-nabu
