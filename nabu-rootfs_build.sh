@@ -72,6 +72,8 @@ cp ./*.deb rootdir/tmp/
 chroot rootdir dpkg -i /tmp/firmware-xiaomi-nabu.deb
 chroot rootdir dpkg -i /tmp/linux-xiaomi-nabu.deb
 chroot rootdir dpkg -i /tmp/qcom-services-1.0.0-1-aarch64.deb
+chroot rootdir dpkg -i /tmp/alsa-xiaomi-nabu.deb
+
 rm rootdir/tmp/*.deb
 chroot rootdir systemctl enable qrtr-ns pd-mapper tqftpserv rmtfs
 chroot rootdir systemctl enable NetworkManager
