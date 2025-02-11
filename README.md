@@ -4,19 +4,16 @@
 This repo contians scripts for automatic building of ubuntu rootfs and kernel for Xiaomi Pad 5
 
 # Where do i get needed files?
-Actually, just go to the "Actions" tab, find one of latest builds and download file named **rootfs_(Desktop Environment you want)_(Kernel version you want)** 
-<br>for update download file named **xiaomi-nabu-debs_(Kernel version you want)**
+Actually, just go to the "Actions" tab, find one of latest builds and download file named **rootfs.img** and **linux.boot.img** 
 
 # Update info
 - Unpack .zip you downloaded
-- Run dpkg -i *-xiaomi-nabu.deb
-- P.S. if you are moving to another kernel version make that after installing .deb's
-  <br>**First method**: just replace your old kernel version with the new kernel version in /boot/grub/grub.cfg
-  <br>**Second method**: grub-install and grub-mkconfig -o /boot/grub/grub.cfg
+- Run `dpkg -i *-xiaomi-nabu.deb`
+- Flash new boot.img `fastboot flash boot_ab linux.boot.img`
 
 # Install info
 - Unpack .zip you downloaded
-- Unpack extracted .7z (there you take rootfs.img)
-- rootfs.img must be flashed to the partition named "linux"
-- Partition for efi boot must be named "esp"
-- Install grub using grub-install and grub-mkconfig -o /boot/grub/grub.cfg. If done from android make sure that efs partition is mounted at /boot/efi, after generating grub.cfg change all of "/dev/block/" to "/dev/"
+- **rootfs.img** must be flashed to the partition named "**linux**"(**sda32**) `fastboot flash linux rootfs.img`
+- Flash boot.img `fastboot flash boot_ab linux.boot.img`
+- Password is `password`
+
