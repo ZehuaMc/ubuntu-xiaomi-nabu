@@ -1,8 +1,9 @@
-git clone https://gitlab.postmarketos.org/panpanpanpan/sm8150-mainline.git --branch=sm8150-6.13 --depth 1 linux
+git clone https://g.tx0.su/tx0/nabu-mainline-patches.git --depth 1 patch
+git clone https://gitlab.postmarketos.org/panpanpanpan/sm8150-mainline.git --depth 1 linux
 cd linux
-git applu ../patch/ufs.patch
-git apply ../patch/ln8000_v9.patch
-git apply ../patch/rtc.patch
+git apply ../patch/*.patch
+# git apply ../patch/ln8000_v9.patch
+# git apply ../patch/rtc.patch
 export ARCH=arm64 LLVM=1 LLVM_IAS=1
 make -j$(nproc) defconfig sm8150.config
 make -j$(nproc) Image Image.gz dtbs modules
